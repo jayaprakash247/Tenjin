@@ -7,6 +7,6 @@ spec:
     app: {{ .Release.Name }}-svtui  
   ports:
     - protocol: TCP
-      port: {{ .Values.svtui.ports[0].servicePort }}  
-      targetPort: {{ .Values.svtui.ports[0].containerPort }}  
+      port: 80 
+      targetPort: 80  
   type: ClusterIP  

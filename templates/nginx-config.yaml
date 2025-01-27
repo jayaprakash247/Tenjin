@@ -8,9 +8,8 @@ data:
         listen 80;
         server_name localhost;
 
-        # Forward traffic for the /svt path to the svt service
-        location /svt/ {
-            proxy_pass http://svt:PORT; # Replace with the actual port of svt
+        location / {
+            proxy_pass http://{{ .Release.Name }}-svtui:80; 
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -18,8 +17,8 @@ data:
         }
 
         # Forward traffic for the /svtrest path to the svtrest service
-        location /svtrest/ {
-            proxy_pass http://svtrest:PORT; # Replace with the actual port of svtrest
+        location /svtrest {
+            proxy_pass http://{{ .Release.Name }}-svtrest:8080/svtrest; 
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

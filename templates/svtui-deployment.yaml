@@ -16,7 +16,7 @@ spec:
         - name: svt
           image: "{{ .Values.svtui.image.repository }}:{{ .Values.svtui.image.tag }}"
           ports:
-            - containerPort: {{ .Values.svtui.ports[0].containerPort }}
+            - containerPort: 80
           resources:
             requests:
               memory: "{{ .Values.svtui.resources.requests.memory }}"
