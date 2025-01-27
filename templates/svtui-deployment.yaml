@@ -24,8 +24,4 @@ spec:
             limits:
               memory: "{{ .Values.svtui.resources.limits.memory }}"
               cpu: "{{ .Values.svtui.resources.limits.cpu }}"
-          env:
-            - name: SVT_URL
-              value: "http://{{ .Release.Name }}-svt:8080" 
-            - name: SVTREST_URL
-              value: "http://{{ .Release.Name }}-svtrest:8080" 
+

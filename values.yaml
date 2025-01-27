@@ -55,7 +55,7 @@ elasticsearch:
     size: 10Gi
 
 nginx:
-  image: nginx:alpine
+  image: nginxb
   replicaCount: 1
   servicePort: 80
 
