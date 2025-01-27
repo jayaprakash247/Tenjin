@@ -3,9 +3,6 @@ svt:
   image:
     repository: svt
     tag: latest
-  ports:
-    - containerPort: 8080
-      servicePort: 80
   resources:
     requests:
       memory: "256Mi"
@@ -22,9 +19,6 @@ svtrest:
   image:
     repository: svtrest
     tag: latest
-  ports:
-    - containerPort: 8080
-      servicePort: 80
   resources:
     requests:
       memory: "256Mi"
@@ -38,9 +32,6 @@ svtui:
   image:
     repository: svtui
     tag: latest
-  ports:
-    - containerPort: 80
-      servicePort: 80
   resources:
     requests:
       memory: "256Mi"
