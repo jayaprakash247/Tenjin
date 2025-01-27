@@ -3,12 +3,12 @@ entries:
   Tenjin:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-01-27T20:50:42.4737266+05:30"
+    created: "2025-01-27T20:56:43.7429061+05:30"
     description: A Helm chart for Kubernetes
-    digest: 93fbce5c53a785b011ace21598697915822c6aae6acea3890470fa2d82612d70
+    digest: 89fef2463ea5f10a67a482f4510278f96a0fc0cf70fda4f4189142bde03690e1
     name: Tenjin
     type: application
     urls:
-    - https://github.com/jayaprakash247/Tenjin.git/Tenjin-0.1.0.tgz
+    - https://jayaprakash247.github.io/Tenjin/Tenjin-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-27T20:50:42.4651111+05:30"
+generated: "2025-01-27T20:56:43.7349427+05:30"
