@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: svtrest
-          image: "{{ .Values.svtrest.image.repository }}:{{ .Values.svtrest.image.tag }}"
+          image: "svtrest"
           ports:
             - containerPort: 8080
           resources:
