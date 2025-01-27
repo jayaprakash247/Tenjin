@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,17 +26,19 @@ spec:
               cpu: "{{ .Values.svtrest.resources.limits.cpu }}"
           volumeMounts:
             - name: svtrest-data
-              mountPath: /data  # Mount PVC at /data path in the container
+              mountPath: /data 
             - name: svtrest-config
               mountPath: /etc/svtrest/config  # Mount ConfigMap at /etc/svtrest/config (adjust as needed)
               readOnly: true
+      imagePullSecrets:
+        - name: tenjin  
       volumes:
         - name: svtrest-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svtrest-pvc  # Reference PVC
+            claimName: {{ .Release.Name }}-svtrest-pvc  
         - name: svtrest-config
           configMap:
-            name: {{ .Release.Name }}-svtrest-config  # Reference ConfigMap
+            name: {{ .Release.Name }}-svtrest-config  
 
 ---
 apiVersion: v1
