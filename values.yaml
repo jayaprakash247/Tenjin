@@ -1,5 +1,5 @@
 svt:
-  replicaCount: 3
+  replicaCount: 1
   image:
     repository: svt
     tag: latest
@@ -12,10 +12,8 @@ svt:
       cpu: "1"
 
 
-
-
 svtrest:
-  replicaCount: 3
+  replicaCount: 1
   image:
     repository: svtrest
     tag: latest
@@ -28,7 +26,7 @@ svtrest:
       cpu: "1"
 
 svtui:
-  replicaCount: 3
+  replicaCount: 1
   image:
     repository: svtui
     tag: latest
@@ -51,7 +49,7 @@ postgres:
 elasticsearch:
   persistence:
     accessModes: ReadWriteOnce
-    storageClassName: standard  #
+    storageClassName: standard  
     size: 10Gi
 
 nginx:

@@ -26,13 +26,15 @@ spec:
               cpu: "{{ .Values.svt.resources.limits.cpu }}"
           volumeMounts:
             - name: svt-data
-              mountPath: /data  # Mount the volume at /data path in the container
+              mountPath: /data  
             - name: svt-config
-              mountPath: /etc/svt-config  # Mount configMap if needed
+              mountPath: /etc/svt-config 
+      imagePullSecrets:
+        - name: tenjin  
       volumes:
         - name: svt-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svt-pvc  # Reference PVC
+            claimName: {{ .Release.Name }}-svt-pvc  
         - name: svt-config
           configMap:
             name: {{ .Release.Name }}-svt-config
@@ -44,25 +46,4 @@ metadata:
   name: {{ .Release.Name }}-svt-pv
 spec:
   capacity:
-    storage: 1Gi  # Size of the volume
-  accessModes:
-    - ReadWriteOnce  # Ensure this matches your PVC's access mode
-  persistentVolumeReclaimPolicy: Retain  # What happens to the volume after it is released
-  storageClassName: standard  # Specify the storage class to match PVC
-  hostPath:
-    path: "/mnt/data"  # Local path where data is stored (this is an example, adjust for your setup)
-    type: DirectoryOrCreate
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ .Release.Name }}-svt-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce  # Ensure this matches the PV access mode
-  resources:
-    requests:
-      storage: 1Gi  # Size of the storage requested
-  storageClassName: standard  # Must match the storage class name in the PV
-  volumeMode: Filesystem
+    storage: 1G
