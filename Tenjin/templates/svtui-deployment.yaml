@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-svtui
+spec:
+  replicas: {{ .Values.svtui.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-svtui
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-svtui
+    spec:
+      containers:
+        - name: svt
+          image: "{{ .Values.svtui.image.repository }}:{{ .Values.svtui.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.svtui.ports[0].containerPort }}
+          resources:
+            requests:
+              memory: "{{ .Values.svtui.resources.requests.memory }}"
+              cpu: "{{ .Values.svtui.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.svtui.resources.limits.memory }}"
+              cpu: "{{ .Values.svtui.resources.limits.cpu }}"
+          env:
+            - name: SVT_URL
+              value: "http://{{ .Release.Name }}-svt:8080" 
+            - name: SVTREST_URL
+              value: "http://{{ .Release.Name }}-svtrest:8080" 

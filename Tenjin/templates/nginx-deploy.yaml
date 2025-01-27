@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: {{ .Values.nginx.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: {{ .Values.nginx.image }}
+          ports:
+            - containerPort: {{ .Values.nginx.servicePort }}
+          env:
+            - name: NGINX_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  name: nginx-configmap
+                  key: nginx.conf
+          command: [ "sh", "-c", "echo \"$NGINX_CONFIG\" > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'" ]

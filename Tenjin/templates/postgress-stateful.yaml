@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+    name: {{ .Release.Name }}-postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: db
+        image: postgres
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-postgres-config
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+      labels:
+        app: {{ .Release.Name }}-postgres
+    spec:
+      accessModes:
+        - {{ .Values.postgres.persistence.accessModes }}  
+      storageClassName: {{ .Values.postgres.persistence.storageClassName }}  
+      resources:
+        requests:
+          storage: {{ .Values.postgres.persistence.size }} 
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-postgres-pv
+  labels:
+    app: {{ .Release.Name }}-postgres
+spec:
+  capacity:
+    storage: {{ .Values.postgres.persistence.size }}  # Size from values.yaml
+  accessModes:
+    - {{ .Values.postgres.persistence.accessModes }}  # AccessModes from values.yaml
+  persistentVolumeReclaimPolicy: Retain  # Retain or Delete
+  storageClassName: {{ .Values.postgres.persistence.storageClassName }}  # Storage class from values.yaml
+  hostPath:
+    path: "/mnt/data/{{ .Release.Name }}-postgres"  # Local path on your machine
+    type: DirectoryOrCreate  # Creates the directory if it doesn't exist
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-postgres-pv
+  labels:
+    app: {{ .Release.Name }}-postgres
+spec:
+  capacity:
+    storage: {{ .Values.postgres.persistence.size }}  # Size from values.yaml
+  accessModes:
+    - {{ .Values.postgres.persistence.accessModes }}  # AccessModes from values.yaml
+  persistentVolumeReclaimPolicy: Retain  # Retain or Delete
+  storageClassName: {{ .Values.postgres.persistence.storageClassName }}  # Storage class from values.yaml
+  hostPath:
+    path: "/mnt/data/{{ .Release.Name }}-postgres"  # Local path on your machine
+    type: DirectoryOrCreate  

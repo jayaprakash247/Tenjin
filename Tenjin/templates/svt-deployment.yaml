@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-svt
+spec:
+  replicas: {{ .Values.svt.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-svt
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-svt
+    spec:
+      containers:
+        - name: svt
+          image: "{{ .Values.svt.image.repository }}:{{ .Values.svt.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.svt.ports[0].containerPort }}
+          resources:
+            requests:
+              memory: "{{ .Values.svt.resources.requests.memory }}"
+              cpu: "{{ .Values.svt.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.svt.resources.limits.memory }}"
+              cpu: "{{ .Values.svt.resources.limits.cpu }}"
+          volumeMounts:
+            - name: svt-data
+              mountPath: /data  # Mount the volume at /data path in the container
+            - name: svt-config
+              mountPath: /etc/svt-config  # Mount configMap if needed
+      volumes:
+        - name: svt-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-svt-pvc  # Reference PVC
+        - name: svt-config
+          configMap:
+            name: {{ .Release.Name }}-svt-config
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-svt-pv
+spec:
+  capacity:
+    storage: 1Gi  # Size of the volume
+  accessModes:
+    - ReadWriteOnce  # Ensure this matches your PVC's access mode
+  persistentVolumeReclaimPolicy: Retain  # What happens to the volume after it is released
+  storageClassName: standard  # Specify the storage class to match PVC
+  hostPath:
+    path: "/mnt/data"  # Local path where data is stored (this is an example, adjust for your setup)
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-svt-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce  # Ensure this matches the PV access mode
+  resources:
+    requests:
+      storage: 1Gi  # Size of the storage requested
+  storageClassName: standard  # Must match the storage class name in the PV
+  volumeMode: Filesystem

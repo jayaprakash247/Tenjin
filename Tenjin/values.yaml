@@ -1,0 +1,70 @@
+svt:
+  replicaCount: 3
+  image:
+    repository: svt
+    tag: latest
+  ports:
+    - containerPort: 8080
+      servicePort: 80
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "500m"
+    limits:
+      memory: "512Mi"
+      cpu: "1"
+
+
+
+
+svtrest:
+  replicaCount: 3
+  image:
+    repository: svtrest
+    tag: latest
+  ports:
+    - containerPort: 8080
+      servicePort: 80
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "500m"
+    limits:
+      memory: "512Mi"
+      cpu: "1"
+
+svtui:
+  replicaCount: 3
+  image:
+    repository: svtui
+    tag: latest
+  ports:
+    - containerPort: 80
+      servicePort: 80
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "500m"
+    limits:
+      memory: "512Mi"
+      cpu: "1"
+
+
+
+postgres:
+  persistence:
+    size: 10Gi # Storage size
+    accessModes: ReadWriteOnce # Access mode
+    storageClassName: standard 
+
+elasticsearch:
+  persistence:
+    accessModes: ReadWriteOnce
+    storageClassName: standard  #
+    size: 10Gi
+
+nginx:
+  image: nginx:alpine
+  replicaCount: 1
+  servicePort: 80
+

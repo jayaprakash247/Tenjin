@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-elasticsearch
+  labels:
+    name: {{ .Release.Name }}-elasticsearch
+spec:
+  serviceName: "elasticsearch"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elsatic
+        image: docker.elastic.co/elasticsearch/elasticsearch:latest
+        ports:
+        - containerPort: 9200  
+        - containerPort: 9300  
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-elasticsearch-config
+        volumeMounts:
+        - name: elasticsearch-data
+          mountPath: /usr/share/elasticsearch/data
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-data
+      labels:
+        app: {{ .Release.Name }}-elasticsearch
+    spec:
+      accessModes:
+        - {{ .Values.elasticsearch.persistence.accessModes }}  # AccessModes from values.yaml
+      storageClassName: {{ .Values.elasticsearch.persistence.storageClassName }}  # StorageClass from values.yaml
+      resources:
+        requests:
+          storage: {{ .Values.elasticsearch.persistence.size }}  # Storage size from values.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-elasticsearch-pv
+  labels:
+    app: {{ .Release.Name }}-elasticsearch
+spec:
+  capacity:
+    storage: {{ .Values.elasticsearch.persistence.size }}  # Size from values.yaml
+  accessModes:
+    - {{ .Values.elasticsearch.persistence.accessModes }}  # AccessModes from values.yaml
+  persistentVolumeReclaimPolicy: Retain  # Or Delete, depending on your need
+  storageClassName: {{ .Values.elasticsearch.persistence.storageClassName }}  # StorageClass from values.yaml
+  hostPath:
+    path: "/mnt/data/{{ .Release.Name }}-elasticsearch"  # Path on your local machine where Elasticsearch data will be stored
+    type: DirectoryOrCreate  # Create the directory if it doesn't exist
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-elasticsearch-pvc
+  labels:
+    app: {{ .Release.Name }}-elasticsearch
+spec:
+  accessModes:
+    - {{ .Values.elasticsearch.persistence.accessModes }}  # AccessModes from values.yaml
+  resources:
+    requests:
+      storage: {{ .Values.elasticsearch.persistence.size }}  # Storage size from values.yaml
+  storageClassName: {{ .Values.elasticsearch.persistence.storageClassName }}  # StorageClass from values.yaml
+  volumeMode: Filesystem

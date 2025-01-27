@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-svtrest 
+spec:
+  selector:
+    app: {{ .Release.Name }}-svtrest  
+  ports:
+    - protocol: TCP
+      port: {{ .Values.svtrest.ports[0].servicePort }}  
+      targetPort: {{ .Values.svtrest.ports[0].containerPort }}  
+  type: ClusterIP  
