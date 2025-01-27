@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: svt
-          image: "{{ .Values.svt.image.repository }}:{{ .Values.svt.image.tag }}"
+          image: "svt"
           ports:
             - containerPort: 8080
           resources:
@@ -26,18 +26,18 @@ spec:
               cpu: "{{ .Values.svt.resources.limits.cpu }}"
           volumeMounts:
             - name: svt-data
-              mountPath: /data  
+              mountPath: /data  # Mount the PVC at /data in the container
             - name: svt-config
-              mountPath: /etc/svt-config 
+              mountPath: /etc/svt-config  # Mount configMap at /etc/svt-config
       imagePullSecrets:
-        - name: tenjin  
+        - name: tenjin  # Reference your image pull secret here
       volumes:
         - name: svt-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svt-pvc  
+            claimName: {{ .Release.Name }}-svt-pvc  # Reference the PVC defined above
         - name: svt-config
           configMap:
-            name: {{ .Release.Name }}-svt-config
+            name: {{ .Release.Name }}-svt-config  # Reference ConfigMap if needed
 
 ---
 apiVersion: v1
@@ -46,4 +46,25 @@ metadata:
   name: {{ .Release.Name }}-svt-pv
 spec:
   capacity:
-    storage: 1G
+    storage: 1Gi  # Size of the volume
+  accessModes:
+    - ReadWriteOnce  # Define the access mode
+  persistentVolumeReclaimPolicy: Retain  # Define the reclaim policy
+  storageClassName: standard  # Match this with your PVC's storage class
+  hostPath:
+    path: "/mnt/data/{{ .Release.Name }}-svt"  # Local path for storage (Minikube in this case)
+    type: DirectoryOrCreate  # Automatically create the directory if it doesn't exist
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-svt-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce  
+  resources:
+    requests:
+      storage: 1Gi 
+  storageClassName: standard  
+  volumeMode: Filesystem  

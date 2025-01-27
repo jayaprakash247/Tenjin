@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: svt
-          image: "{{ .Values.svtui.image.repository }}:{{ .Values.svtui.image.tag }}"
+          image: "svtui"
           ports:
             - containerPort: 80
           resources:

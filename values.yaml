@@ -1,8 +1,5 @@
 svt:
   replicaCount: 1
-  image:
-    repository: svt
-    tag: latest
   resources:
     requests:
       memory: "256Mi"
@@ -14,9 +11,6 @@ svt:
 
 svtrest:
   replicaCount: 1
-  image:
-    repository: svtrest
-    tag: latest
   resources:
     requests:
       memory: "256Mi"
@@ -27,9 +21,6 @@ svtrest:
 
 svtui:
   replicaCount: 1
-  image:
-    repository: svtui
-    tag: latest
   resources:
     requests:
       memory: "256Mi"
