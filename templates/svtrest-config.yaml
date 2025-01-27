@@ -3,16 +3,13 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-svtrest-config
 data:
-  server.port: 7002
-  spring.datasource.url: jdbc:postgresql://localhost:5432/postgres
-  spring.datasource.username: postgres
-  spring.datasource.password: postgres
-  spring.datasource.driver-class-name: org.postgresql.Driver
-  spring.jpa.hibernate.ddl-auto: update
-  svtrest.jwtSecretKey: 6cd4e368-34ef-46ba-87e6-019ed5557665
-  svtrest.jwtTokenValidity: 86400000
-  svtrest.svtProjectUrl: http://localhost:7002/svt
-  svtrest.elasticUrl: elasticsearch:9200
-  svtrest.elasticUsername: elastic
-  
-  
+  server.port: "7002"  
+  spring.datasource.url: "jdbc:postgresql://localhost:5432/postgres"  
+  spring.datasource.username: "postgres"  
+  spring.datasource.password: "postgres"  
+  spring.datasource.driver-class-name: "org.postgresql.Driver"  
+  spring.jpa.hibernate.ddl-auto: "update"  
+  svtrest.jwtSecretKey: "6cd4e368-34ef-46ba-87e6-019ed5557665"  
+  svtrest.jwtTokenValidity: "86400000" 
+  svtrest.svtProjectUrl: "http://localhost:7002/svt"  
+  svtrest.elasticUrl: "elasticsearch:9200"  

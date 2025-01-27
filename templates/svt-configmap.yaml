@@ -3,25 +3,25 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-svt-config
 data:
-  server.port: 7000
-  spring.security.user.name: yethi
-  spring.security.user.password: svt
-  spring.datasource.url: jdbc:postgresql://localhost:5432/postgres
-  spring.datasource.username: postgres
-  spring.datasource.password: postgres
-  spring.datasource.driver-class-name: org.postgresql.Driver
-  spring.jpa.hibernate.ddl-auto: none
-  spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
-  svtframework.rabbitmqHost: localhost
-  svtframework.rabbitmqPort: 5672
-  svtframework.rabbitmqVhost: /
-  svtframework.rabbitmqUsername: guest
-  svtframework.rabbitmqPassword: guest
-  svtframework.activemqHost: activemq
-  svtframework.activemqPort: 61616
-  svtframework.activemqUsername: admin
-  svtframework.activemqPassword: admin
-  svtframework.restProjectUrl: http://localhost:7002/svtrest/v1
-  svtframework.svtProjectUrl: http://localhost:7000/svt
-  svtframework.elasticUrl: elasticsearch:9200
-  svtframework.elasticUsername: elastic
+  server.port: "7000"  
+  spring.security.user.name: "yethi"  
+  spring.security.user.password: "svt"  
+  spring.datasource.url: "jdbc:postgresql://localhost:5432/postgres"  
+  spring.datasource.username: "postgres"  
+  spring.datasource.password: "postgres"  
+  spring.datasource.driver-class-name: "org.postgresql.Driver" 
+  spring.jpa.hibernate.ddl-auto: "none" 
+  spring.jpa.database-platform: "org.hibernate.dialect.PostgreSQLDialect"  
+  svtframework.rabbitmqHost: "localhost"  
+  svtframework.rabbitmqPort: "5672"  
+  svtframework.rabbitmqVhost: "/"  
+  svtframework.rabbitmqUsername: "guest" 
+  svtframework.rabbitmqPassword: "guest" 
+  svtframework.activemqHost: "activemq"  
+  svtframework.activemqPort: "61616"  
+  svtframework.activemqUsername: "admin"  
+  svtframework.activemqPassword: "admin"  
+  svtframework.restProjectUrl: "http://localhost:7002/svtrest/v1"  
+  svtframework.svtProjectUrl: "http://localhost:7000/svt"  
+  svtframework.elasticUrl: "elasticsearch:9200"  
+  svtframework.elasticUsername: "elastic"  
