@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: svtrest
-          image: "svtrest"
+          image: "jayaprakash247/svtrest:latest"
           ports:
             - containerPort: 8080
           resources:
@@ -30,8 +30,6 @@ spec:
             - name: svtrest-config
               mountPath: /etc/svtrest/config  # Mount ConfigMap at /etc/svtrest/config (adjust as needed)
               readOnly: true
-      imagePullSecrets:
-        - name: tenjin  
       volumes:
         - name: svtrest-data
           persistentVolumeClaim:

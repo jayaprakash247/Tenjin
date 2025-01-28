@@ -44,7 +44,7 @@ elasticsearch:
     size: 10Gi
 
 nginx:
-  image: nginxb
+  image: jayaprakash247/nginxb:latest
   replicaCount: 1
   servicePort: 80
 

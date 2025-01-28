@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: svt
-          image: "svtui"
+          image: "jayaprakash247/svtui:latest"
           ports:
             - containerPort: 80
           resources:
@@ -24,5 +24,4 @@ spec:
             limits:
               memory: "{{ .Values.svtui.resources.limits.memory }}"
               cpu: "{{ .Values.svtui.resources.limits.cpu }}"
-      imagePullSecrets:
-        - name: tenjin  
+
