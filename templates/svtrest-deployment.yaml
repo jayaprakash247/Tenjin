@@ -25,18 +25,18 @@ spec:
               memory: "{{ .Values.svtrest.resources.limits.memory }}"
               cpu: "{{ .Values.svtrest.resources.limits.cpu }}"
           volumeMounts:
-            - name: svtrest-data
-              mountPath: /data 
-            - name: svtrest-config
-              mountPath: /etc/svtrest/config  # Mount ConfigMap at /etc/svtrest/config (adjust as needed)
-              readOnly: true
+            - name: svtrest-data  # Ensure this matches the volume name defined below
+              mountPath: /data
+            - name: svtrest-config  # Ensure this matches the volume name defined below
+              mountPath: /etc/svtrest/config
+              readOnly: true 
       volumes:
         - name: svtrest-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svtrest-pvc  
+            claimName: {{ .Release.Name }}-svtrest-pvc  # Ensure this matches your PVC claim name
         - name: svtrest-config
           configMap:
-            name: {{ .Release.Name }}-svtrest-config  
+            name: {{ .Release.Name }}-svtrest-config  # Ensure this matches your ConfigMap name
 
 ---
 apiVersion: v1
