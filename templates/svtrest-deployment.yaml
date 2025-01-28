@@ -25,19 +25,18 @@ spec:
               memory: "{{ .Values.svtrest.resources.limits.memory }}"
               cpu: "{{ .Values.svtrest.resources.limits.cpu }}"
           volumeMounts:
-            - name: svtrest-data  # Ensure this matches the volume name defined below
+            - name: svtrest-data
               mountPath: /data
-            - name: svtrest-config  # Ensure this matches the volume name defined below
+            - name: svtrest-config
               mountPath: /etc/svtrest/config
-              readOnly: true 
+              readOnly: true
       volumes:
         - name: svtrest-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svtrest-pvc  # Ensure this matches your PVC claim name
+            claimName: {{ .Release.Name }}-svtrest-pvc
         - name: svtrest-config
           configMap:
-            name: {{ .Release.Name }}-svtrest-config  # Ensure this matches your ConfigMap name
-
+            name: {{ .Release.Name }}-svtrest-config
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -45,14 +44,14 @@ metadata:
   name: {{ .Release.Name }}-svtrest-pv
 spec:
   capacity:
-    storage: 1Gi  # Define the size of the volume
+    storage: 1Gi
   accessModes:
-    - ReadWriteOnce  # Set access mode to match PVC
-  persistentVolumeReclaimPolicy: Retain  # Policy to decide what happens after the volume is released (Delete/Retain)
-  storageClassName: standard  # Set the storage class name to match PVC (can be modified based on setup)
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
   hostPath:
-    path: "/mnt/data/{{ .Release.Name }}-svtrest"  # Path on your local machine where data will be stored
-    type: DirectoryOrCreate  # This will create the directory if it doesn't exist
+    path: "/mnt/data/{{ .Release.Name }}-svtrest"
+    type: DirectoryOrCreate
 
 ---
 apiVersion: v1
@@ -61,9 +60,9 @@ metadata:
   name: {{ .Release.Name }}-svtrest-pvc
 spec:
   accessModes:
-    - ReadWriteOnce  # Ensure this matches the PV access mode
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi  # Size of the storage requested
-  storageClassName: standard  # Must match the storage class name in the PV
+      storage: 1Gi
+  storageClassName: standard
   volumeMode: Filesystem
