@@ -21,13 +21,6 @@ spec:
         ports:
         - containerPort: 9200  
         - containerPort: 9300  
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1"
-          limits:
-            memory: "4Gi"
-            cpu: "2"
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-elasticsearch-config

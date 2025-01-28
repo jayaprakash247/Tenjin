@@ -17,11 +17,4 @@ spec:
           image: "jayaprakash247/svtui:latest"
           ports:
             - containerPort: 80
-          resources:
-            requests:
-              memory: "{{ .Values.svtui.resources.requests.memory }}"
-              cpu: "{{ .Values.svtui.resources.requests.cpu }}"
-            limits:
-              memory: "{{ .Values.svtui.resources.limits.memory }}"
-              cpu: "{{ .Values.svtui.resources.limits.cpu }}"
-
+        
