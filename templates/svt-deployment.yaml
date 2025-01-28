@@ -17,13 +17,6 @@ spec:
           image: "jayaprakash247/svt:latest"
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "{{ .Values.svt.resources.requests.memory }}"
-              cpu: "{{ .Values.svt.resources.requests.cpu }}"
-            limits:
-              memory: "{{ .Values.svt.resources.limits.memory }}"
-              cpu: "{{ .Values.svt.resources.limits.cpu }}"
           volumeMounts:
             - name: svt-data
               mountPath: /data
