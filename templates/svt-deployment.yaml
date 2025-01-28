@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-svt
 spec:
-  replicas: {{ .Values.svtrest.replicaCount }}
+  replicas: {{ .Values.svt.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-svt
@@ -13,7 +13,7 @@ spec:
         app: {{ .Release.Name }}-svt
     spec:
       containers:
-        - name: svtrest
+        - name: svt
           image: "jayaprakash247/svt:latest"
           ports:
             - containerPort: 8080
@@ -26,17 +26,17 @@ spec:
               cpu: "{{ .Values.svt.resources.limits.cpu }}"
           volumeMounts:
             - name: svt-data
-              mountPath: /data 
+              mountPath: /data
             - name: svt-config
-              mountPath: /etc/svt/config  # Mount ConfigMap at /etc/svtrest/config (adjust as needed)
-              readOnly: true 
+              mountPath: /etc/svt/config
+              readOnly: true
       volumes:
         - name: svt-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-svt-pvc  
+            claimName: {{ .Release.Name }}-svt-pvc
         - name: svt-config
           configMap:
-            name: {{ .Release.Name }}-svt-config  
+            name: {{ .Release.Name }}-svt-config
 
 ---
 apiVersion: v1
@@ -45,14 +45,14 @@ metadata:
   name: {{ .Release.Name }}-svt-pv
 spec:
   capacity:
-    storage: 1Gi  # Define the size of the volume
+    storage: 1Gi
   accessModes:
-    - ReadWriteOnce  # Set access mode to match PVC
-  persistentVolumeReclaimPolicy: Retain  # Policy to decide what happens after the volume is released (Delete/Retain)
-  storageClassName: standard  # Set the storage class name to match PVC (can be modified based on setup)
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
   hostPath:
-    path: "/mnt/data/{{ .Release.Name }}-svt"  # Path on your local machine where data will be stored
-    type: DirectoryOrCreate  # This will create the directory if it doesn't exist
+    path: "/mnt/data/{{ .Release.Name }}-svt"
+    type: DirectoryOrCreate
 
 ---
 apiVersion: v1
@@ -61,9 +61,9 @@ metadata:
   name: {{ .Release.Name }}-svt-pvc
 spec:
   accessModes:
-    - ReadWriteOnce  # Ensure this matches the PV access mode
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi  # Size of the storage requested
-  storageClassName: standard  # Must match the storage class name in the PV
+      storage: 1Gi
+  storageClassName: standard
   volumeMode: Filesystem
