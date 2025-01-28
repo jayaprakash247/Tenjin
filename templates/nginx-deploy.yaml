@@ -17,5 +17,3 @@ spec:
           image: {{ .Values.nginx.image }}
           ports:
             - containerPort: {{ .Values.nginx.servicePort }}
-      imagePullSecrets:
-        - name: tenjin  
